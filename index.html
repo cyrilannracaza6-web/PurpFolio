@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PurpFolio | Portfolio Template Generator</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+    <header class="topbar">
+
+        <a href="#home" class="brand">
+            Purp<span>folio</span>
+        </a>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#create">Create</a>
+            <a href="#templates">Templates</a>
+            <a href="#manage">Manage</a>
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <!-- =========================
+             HOME PAGE
+        ========================== -->
+
+        <section id="home" class="hero page">
+
+            <div class="hero-copy">
+
+                <span class="eyebrow">
+                    YOUR PORTFOLIO, YOUR STORY
+                </span>
+
+                <h1>
+                    Showcase what
+                    <span>you can do.</span>
+                </h1>
+
+                <p>
+                    Build a professional portfolio that highlights your
+                    skills, experiences, projects, and achievements—all
+                    in one place.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="#create" class="btn primary">
+                        Create Portfolio
+                    </a>
+
+                    <a href="#manage" class="btn ghost">
+                        Manage Portfolios
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-card">
+
+                <div class="mini-window">
+
+                    <div class="window-dots">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+
+                    <div class="mini-avatar">
+                        PF
+                    </div>
+
+                    <div class="mini-line wide"></div>
+                    <div class="mini-line"></div>
+
+                    <div class="mini-grid">
+                        <b></b>
+                        <b></b>
+                        <b></b>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             INFORMATION FORM
+        ========================== -->
+
+        <section id="create" class="section page">
+
+            <div class="section-head">
+
+                <span class="eyebrow">
+                    STEP 1
+                </span>
+
+                <h2>
+                    Enter Portfolio Information
+                </h2>
+
+                <p>
+                    Complete the form below. Required fields are marked with *.
+                </p>
+
+            </div>
+
+
+            <form id="portfolioForm" class="form-card">
+
+                <!-- Hidden ID for editing -->
+                <input
+                    type="hidden"
+                    id="portfolioId"
+                >
+
+
+                <div class="form-grid">
+
+                    <!-- Full Name -->
+                    <label>
+                        Full Name *
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            placeholder="Andy Leila Mendoza"
+                            required
+                        >
+                    </label>
+
+
+                    <!-- Profile Picture -->
+                    <label>
+                        Profile Picture
+
+                        <input
+                            type="file"
+                            id="profilePicture"
+                            placeholder="image/*"
+                        >
+
+                        <small>
+                            Choose an image from your device.
+                        </small>
+                    </label>
+
+
+                    <!-- Email -->
+                    <label>
+                        Email *
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="andyleila@email.com"
+                            required
+                        >
+                    </label>
+
+
+                    <!-- Contact -->
+                    <label>
+                        Contact Number
+
+                        <input
+                            type="text"
+                            id="contactNumber"
+                            placeholder="09XXXXXXXXX"
+                        >
+                    </label>
+
+
+                    <!-- Address -->
+                    <label class="full">
+                        Address
+
+                        <input
+                            type="text"
+                            id="address"
+                            placeholder="Nueva Ecija, Philippines"
+                        >
+                    </label>
+
+
+                    <!-- About -->
+                    <label class="full">
+                        About Me
+
+                        <textarea
+                            id="aboutMe"
+                            rows="5"
+                            placeholder="Write a short introduction about yourself..."
+                        ></textarea>
+                    </label>
+
+
+                    <!-- Education -->
+                    <label class="full">
+                        Educational Background
+
+                        <textarea
+                            id="education"
+                            rows="5"
+                            placeholder="Bachelor in Science Information Technology - 2024-2028"
+                        ></textarea>
+                    </label>
+
+
+                    <!-- Skills -->
+                    <label>
+                        Skills
+
+                        <textarea
+                            id="skills"
+                            rows="5"
+                            placeholder="HTML, CSS, JavaScript, UI/UX"
+                        ></textarea>
+
+                        <small>
+                            Separate skills using commas.
+                        </small>
+
+                    </label>
+
+
+                    <!-- Experience -->
+                    <label>
+                        Work Experience
+
+                        <textarea
+                            id="experience"
+                            rows="5"
+                            placeholder="Web Developer Intern - 2026"
+                        ></textarea>
+
+                    </label>
+
+
+                    <!-- Projects -->
+                    <label class="full">
+                        Projects
+
+                        <textarea
+                            id="projects"
+                            rows="5"
+                            placeholder="Student Grading System - Web application..."
+                        ></textarea>
+
+                    </label>
+
+
+                    <!-- Social Media -->
+                    <label>
+                        Social Media Link
+
+                        <input
+                            type="url"
+                            id="socialLink"
+                            placeholder="https://facebook.com/username"
+                        >
+                    </label>
+
+
+                    <!-- Website -->
+                    <label>
+                        Website / GitHub
+
+                        <input
+                            type="url"
+                            id="websiteLink"
+                            placeholder="https://github.com/username"
+                        >
+                    </label>
+
+                </div>
+
+
+                <!-- Form buttons -->
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn primary"
+                    >
+                        Save Portfolio
+                    </button>
+
+                    <button
+                        type="button"
+                        id="clearBtn"
+                        class="btn ghost"
+                    >
+                        Clear Form
+                    </button>
+
+                </div>
+
+
+                <p
+                    id="formMessage"
+                    class="message"
+                ></p>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             TEMPLATE SELECTION
+        ========================== -->
+
+        <section
+            id="templates"
+            class="section page"
+        >
+
+            <div class="section-head">
+
+                <span class="eyebrow">
+                    STEP 2
+                </span>
+
+                <h2>
+                    Choose a Template
+                </h2>
+
+                <p>
+                    Choose exactly one of the three available portfolio designs.
+                </p>
+
+            </div>
+
+
+            <div class="template-grid">
+
+
+                <!-- TEMPLATE 1 -->
+                <button
+                    class="template-card selected"
+                    data-template="simple"
+                >
+
+                    <div class="sample simple-sample">
+
+                        <h3>
+                            Maria Teresa Racaza
+                        </h3>
+
+                        <hr>
+
+                        <p>
+                            Designer & Developer
+                        </p>
+
+                    </div>
+
+                    <strong>
+                        Template 1 — Simple
+                    </strong>
+
+                    <span>
+                        Clean and professional
+                    </span>
+
+                </button>
+
+
+                <!-- TEMPLATE 2 -->
+                <button
+                    class="template-card"
+                    data-template="modern"
+                >
+
+                    <div class="sample modern-sample">
+
+                        <div></div>
+
+                        <h3>
+                            Maria Teresa Racaza
+                        </h3>
+
+                        <p>
+                            Creative Developer
+                        </p>
+
+                    </div>
+
+                    <strong>
+                        Template 2 — Modern
+                    </strong>
+
+                    <span>
+                        Cards, sections and visual elements
+                    </span>
+
+                </button>
+
+
+                <!-- TEMPLATE 3 -->
+                <button
+                    class="template-card"
+                    data-template="creative"
+                >
+
+                    <div class="sample creative-sample">
+
+                        <div class="shape"></div>
+
+                        <h3>
+                            Maria Teresa
+                        </h3>
+
+                        <p>
+                            Portfolio
+                        </p>
+
+                    </div>
+
+                    <strong>
+                        Template 3 — Creative
+                    </strong>
+
+                    <span>
+                        Creative portfolio arrangement
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="center">
+
+                <button
+                    id="generateBtn"
+                    class="btn primary big"
+                >
+                    Generate Portfolio
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PREVIEW
+        ========================== -->
+
+        <section
+            id="preview"
+            class="section page"
+        >
+
+            <div class="section-head">
+
+                <span class="eyebrow">
+                    STEP 3
+                </span>
+
+                <h2>
+                    Portfolio Preview
+                </h2>
+
+                <p>
+                    Your generated portfolio will appear here.
+                </p>
+
+            </div>
+
+
+            <div
+                id="portfolioPreview"
+                class="preview-box"
+            >
+
+                <div class="empty-state">
+
+                    Save your portfolio information,
+                    choose a template, and generate your portfolio.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             MANAGE PORTFOLIOS
+        ========================== -->
+
+        <section
+            id="manage"
+            class="section page"
+        >
+
+            <div class="section-head">
+
+                <span class="eyebrow">
+                    CRUD MANAGEMENT
+                </span>
+
+                <h2>
+                    Manage Portfolios
+                </h2>
+
+                <p>
+                    View, edit, or delete portfolio records stored in the
+                    online database.
+                </p>
+
+            </div>
+
+
+            <div
+                id="portfolioList"
+                class="portfolio-list"
+            >
+
+                <div class="empty-state">
+                    Loading saved portfolios...
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Toast notification -->
+
+    <div
+        id="toast"
+        class="toast"
+    ></div>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        © 2026 PurpFolio
+
+        <br>
+
+        Information Management · HCI · Web Systems Technology 2
+
+    </footer>
+
+
+    <!-- Supabase Library -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- Configuration -->
+
+    <script src="config.js"></script>
+
+
+    <!-- JavaScript -->
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

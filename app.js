@@ -1,0 +1,1353 @@
+/* =========================================
+   SUPABASE CONNECTION
+========================================= */
+
+const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+
+/* =========================================
+   GLOBAL VARIABLES
+========================================= */
+
+let selectedTemplate = "simple";
+
+let currentPortfolio = null;
+
+
+/* =========================================
+   SHORTCUT
+========================================= */
+
+const $ = id => document.getElementById(id);
+
+
+/* =========================================
+   FORM FIELDS
+========================================= */
+
+const fields = [
+
+    "fullName",
+
+    "profilePicture",
+
+    "email",
+
+    "contactNumber",
+
+    "address",
+
+    "aboutMe",
+
+    "education",
+
+    "skills",
+
+    "projects",
+
+    "experience",
+
+    "socialLink",
+
+    "websiteLink"
+
+];
+
+
+/* =========================================
+   CHECK SUPABASE CONFIGURATION
+========================================= */
+
+function isSupabaseConfigured() {
+
+    return (
+        !SUPABASE_URL.includes("PASTE_") &&
+        !SUPABASE_ANON_KEY.includes("PASTE_")
+    );
+}
+
+
+/* =========================================
+   GET FORM DATA
+========================================= */
+
+
+async function formData() {
+    const data = {};
+
+    fields.forEach(id => {
+        if (id !== "profilePicture") {
+            data[id] = $(id).value.trim();
+        }
+    });
+
+    const file = $("profilePicture").files[0];
+
+    if (file) {
+        const fileName =
+            `${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
+
+        const { error: uploadError } =
+            await db.storage
+                .from("profile-pictures")
+                .upload(fileName, file, {
+                    cacheControl: "3600",
+                    upsert: false
+                });
+
+        if (uploadError) {
+            console.error(uploadError);
+            throw new Error(
+                "Profile picture upload failed: " +
+                uploadError.message
+            );
+        }
+
+        const { data: publicUrlData } =
+            db.storage
+                .from("profile-pictures")
+                .getPublicUrl(fileName);
+
+        data.profile_picture =
+            publicUrlData.publicUrl;
+
+    } else if (currentPortfolio?.profile_picture) {
+
+        data.profile_picture =
+            currentPortfolio.profile_picture;
+
+    } else {
+
+        data.profile_picture = "";
+
+    }
+
+    data.full_name = data.fullName;
+
+    return data;
+}
+/* =========================================
+   FILL FORM FOR EDITING
+========================================= */
+
+
+function fillForm(portfolio) {
+    $("portfolioId").value = portfolio.id || "";
+
+    fields.forEach(id => {
+    if (id === "fullName") {
+        $(id).value =
+            portfolio.full_name ||
+            portfolio.fullName ||
+            "";
+        } else if (id !== "profilePicture") {
+        $(id).value = portfolio[id] || "";
+    }
+});
+
+}
+/* =========================================
+   CLEAR FORM
+========================================= */
+
+function clearForm() {
+
+    $("portfolioId").value = "";
+
+    fields.forEach(id => {
+
+        $(id).value = "";
+
+    });
+
+    $("formMessage").textContent = "";
+
+    currentPortfolio = null;
+
+    notify("Form cleared.");
+}
+
+
+/* =========================================
+   TOAST MESSAGE
+========================================= */
+
+function notify(message) {
+
+    const toast = $("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2500);
+}
+
+
+/* =========================================
+   SECURITY - SAFE URL
+========================================= */
+
+function safeUrl(url) {
+    if (!url) return "#";
+
+    // Allow images selected from the device
+    if (typeof url === "string" && url.startsWith("data:image/")) {
+        return url;
+    }
+
+    try {
+        const u = new URL(url);
+
+        if (u.protocol === "http:" || u.protocol === "https:") {
+            return u.href;
+        }
+
+        return "#";
+    } catch {
+        return "#";
+    }
+}
+
+
+/* =========================================
+   SECURITY - ESCAPE HTML
+========================================= */
+
+function esc(value = "") {
+
+    return String(value).replace(
+        /[&<>"']/g,
+
+        character => ({
+
+            "&": "&amp;",
+
+            "<": "&lt;",
+
+            ">": "&gt;",
+
+            '"': "&quot;",
+
+            "'": "&#039;"
+
+        })[character]
+    );
+}
+
+
+/* =========================================
+   CONVERT LINES TO HTML
+========================================= */
+
+function lines(text = "") {
+
+    return text
+        .split("\n")
+        .filter(Boolean)
+        .map(line => {
+
+            return `<p>${esc(line)}</p>`;
+
+        })
+        .join("");
+
+}
+
+
+/* =========================================
+   CREATE SKILL TAGS
+========================================= */
+
+function skills(text = "") {
+
+    return text
+        .split(",")
+        .map(skill => skill.trim())
+        .filter(Boolean)
+        .map(skill => {
+
+            return `
+                <span class="tag">
+                    ${esc(skill)}
+                </span>
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* =========================================
+   PROFILE PICTURE
+========================================= */
+
+function picture(portfolio) {
+
+    if (portfolio.profile_picture) {
+
+        return `
+            <img
+                src="${esc(
+                    safeUrl(
+                        portfolio.profile_picture
+                    )
+                )}"
+                alt="${esc(
+                    portfolio.fullName
+                )} profile picture"
+                onerror="
+                    this.style.display='none'
+                "
+            >
+        `;
+
+    }
+
+
+    const initials =
+        (portfolio.fullName || "P")
+            .split(" ")
+            .map(word => word[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+
+
+    return `
+        <div class="mini-avatar">
+            ${esc(initials)}
+        </div>
+    `;
+}
+
+
+/* =========================================
+   PORTFOLIO GENERATOR
+========================================= */
+
+function portfolioMarkup(
+    portfolio,
+    template
+) {
+
+    const social =
+        portfolio.socialLink
+            ? `
+                <a
+                    href="${esc(
+                        safeUrl(
+                            portfolio.socialLink
+                        )
+                    )}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Social Media
+                </a>
+            `
+            : "";
+
+
+    const website =
+        portfolio.websiteLink
+            ? `
+                <a
+                    href="${esc(
+                        safeUrl(
+                            portfolio.websiteLink
+                        )
+                    )}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Website / GitHub
+                </a>
+            `
+            : "";
+
+
+    const contact = [
+
+        portfolio.email,
+
+        portfolio.contactNumber,
+
+        portfolio.address
+
+    ]
+        .filter(Boolean)
+        .map(esc)
+        .join(" · ");
+
+
+    /* =====================================
+       TEMPLATE 1 - SIMPLE
+    ===================================== */
+
+    if (template === "simple") {
+
+        return `
+
+            <article
+                class="portfolio-render render-simple"
+            >
+
+                <div class="render-head">
+
+                    ${picture(portfolio)}
+
+                    <h1>
+                        ${esc(
+                            portfolio.fullName
+                        )}
+                    </h1>
+
+                    <p>
+                        ${contact}
+                    </p>
+
+                </div>
+
+
+                <section>
+
+                    <h2>
+                        About Me
+                    </h2>
+
+                    ${lines(
+                        portfolio.aboutMe
+                    )}
+
+                </section>
+
+
+                <section>
+
+                    <h2>
+                        Education
+                    </h2>
+
+                    ${lines(
+                        portfolio.education
+                    )}
+
+                </section>
+
+
+                <section>
+
+                    <h2>
+                        Skills
+                    </h2>
+
+                    <div class="tags">
+
+                        ${skills(
+                            portfolio.skills
+                        )}
+
+                    </div>
+
+                </section>
+
+
+                <section>
+
+                    <h2>
+                        Projects
+                    </h2>
+
+                    ${lines(
+                        portfolio.projects
+                    )}
+
+                </section>
+
+
+                <section>
+
+                    <h2>
+                        Work Experience
+                    </h2>
+
+                    ${lines(
+                        portfolio.experience
+                    )}
+
+                </section>
+
+
+                <section
+                    class="render-social"
+                >
+
+                    ${social}
+
+                    ${website}
+
+                </section>
+
+            </article>
+        `;
+    }
+
+
+    /* =====================================
+       TEMPLATE 2 - MODERN
+    ===================================== */
+
+    if (template === "modern") {
+
+        return `
+
+            <article
+                class="portfolio-render render-modern"
+            >
+
+                <div class="modern-head">
+
+                    ${picture(portfolio)}
+
+                    <div>
+
+                        <h1>
+                            ${esc(
+                                portfolio.fullName
+                            )}
+                        </h1>
+
+                        <p>
+                            ${contact}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modern-content">
+
+
+                    <div class="modern-box">
+
+                        <h2>
+                            About
+                        </h2>
+
+                        ${lines(
+                            portfolio.aboutMe
+                        )}
+
+                    </div>
+
+
+                    <div class="modern-box">
+
+                        <h2>
+                            Skills
+                        </h2>
+
+                        <div class="tags">
+
+                            ${skills(
+                                portfolio.skills
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="modern-box">
+
+                        <h2>
+                            Education
+                        </h2>
+
+                        ${lines(
+                            portfolio.education
+                        )}
+
+                    </div>
+
+
+                    <div class="modern-box">
+
+                        <h2>
+                            Experience
+                        </h2>
+
+                        ${lines(
+                            portfolio.experience
+                        )}
+
+                    </div>
+
+
+                    <div class="modern-box">
+
+                        <h2>
+                            Projects
+                        </h2>
+
+                        ${lines(
+                            portfolio.projects
+                        )}
+
+                    </div>
+
+
+                    <div
+                        class="modern-box render-social"
+                    >
+
+                        <h2>
+                            Links
+                        </h2>
+
+                        ${social}
+
+                        ${website}
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        `;
+    }
+
+
+    /* =====================================
+       TEMPLATE 3 - CREATIVE
+    ===================================== */
+
+    return `
+
+        <article
+            class="portfolio-render render-creative"
+        >
+
+            <div class="creative-head">
+
+                ${picture(portfolio)}
+
+                <div>
+
+                    <h1>
+                        ${esc(
+                            portfolio.fullName
+                        )}
+                    </h1>
+
+                    <p>
+                        ${contact}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="creative-sections">
+
+
+                <div class="creative-box">
+
+                    <h2>
+                        About Me
+                    </h2>
+
+                    ${lines(
+                        portfolio.aboutMe
+                    )}
+
+                </div>
+
+
+                <div class="creative-box">
+
+                    <h2>
+                        My Skills
+                    </h2>
+
+                    <div class="tags">
+
+                        ${skills(
+                            portfolio.skills
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="creative-box">
+
+                    <h2>
+                        Education
+                    </h2>
+
+                    ${lines(
+                        portfolio.education
+                    )}
+
+                </div>
+
+
+                <div class="creative-box">
+
+                    <h2>
+                        Projects
+                    </h2>
+
+                    ${lines(
+                        portfolio.projects
+                    )}
+
+                </div>
+
+
+                <div class="creative-box">
+
+                    <h2>
+                        Experience
+                    </h2>
+
+                    ${lines(
+                        portfolio.experience
+                    )}
+
+                </div>
+
+
+                <div
+                    class="creative-box render-social"
+                >
+
+                    <h2>
+                        Connect
+                    </h2>
+
+                    ${social}
+
+                    ${website}
+
+                </div>
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+/* =========================================
+   TEMPLATE SELECTION
+========================================= */
+
+document
+    .querySelectorAll(".template-card")
+    .forEach(card => {
+
+        card.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(
+                        ".template-card"
+                    )
+                    .forEach(c => {
+
+                        c.classList.remove(
+                            "selected"
+                        );
+
+                    });
+
+
+                card.classList.add(
+                    "selected"
+                );
+
+
+                selectedTemplate =
+                    card.dataset.template;
+
+
+                notify(
+                    "Template selected: " +
+                    selectedTemplate
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================================
+   SAVE PORTFOLIO
+========================================= */
+
+$("portfolioForm")
+    .addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            if (!isSupabaseConfigured()) {
+
+                $("formMessage").textContent =
+                    "Please configure Supabase in config.js first.";
+
+                return;
+
+            }
+
+
+            const id = $("portfolioId").value;
+
+            let data;
+
+            try {
+                 data = await formData();
+            } catch (error) {
+                console.error(error);
+
+            $("formMessage").textContent =
+                error.message || "Profile picture upload failed.";
+
+            return;
+}
+
+let result;
+
+
+            /* =============================
+               UPDATE
+            ============================== */
+
+            if (id) {
+
+                result =
+                    await db
+                        .from("portfolios")
+                        .update(data)
+                        .eq("id", id)
+                        .select()
+                        .single();
+
+            }
+
+
+            /* =============================
+               INSERT
+            ============================== */
+
+            else {
+
+                result =
+                    await db
+                        .from("portfolios")
+                        .insert(data)
+                        .select()
+                        .single();
+
+            }
+
+
+            /* =============================
+               ERROR
+            ============================== */
+
+            if (result.error) {
+
+                console.error(
+                    result.error
+                );
+
+
+                $("formMessage")
+                    .textContent =
+                    "Database error: " +
+                    result.error.message;
+
+                return;
+
+            }
+
+
+            /* =============================
+               SUCCESS
+            ============================== */
+
+            currentPortfolio =
+                result.data;
+
+
+            $("portfolioId").value =
+                result.data.id;
+
+
+            $("formMessage")
+                .textContent =
+                "Portfolio saved successfully to the online database.";
+
+
+            notify(
+                "Portfolio saved!"
+            );
+
+
+            await loadPortfolios();
+
+
+            document
+                .querySelector(
+                    "#templates"
+                )
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+    );
+
+
+/* =========================================
+   CLEAR BUTTON
+========================================= */
+
+$("clearBtn")
+    .addEventListener(
+        "click",
+        clearForm
+    );
+
+
+/* =========================================
+   GENERATE PORTFOLIO
+========================================= */
+
+$("generateBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+            const portfolio =
+                currentPortfolio ||
+                await formData();
+
+
+            if (
+                !portfolio.fullName ||
+                !portfolio.email
+            ) {
+
+                notify(
+                    "Please save your portfolio first."
+                );
+
+
+                document
+                    .querySelector(
+                        "#create"
+                    )
+                    .scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                return;
+
+            }
+
+
+            $("portfolioPreview")
+                .innerHTML =
+                portfolioMarkup(
+                    portfolio,
+                    selectedTemplate
+                );
+
+
+            document
+                .querySelector(
+                    "#preview"
+                )
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+    );
+
+
+/* =========================================
+   LOAD PORTFOLIOS
+========================================= */
+
+async function loadPortfolios() {
+
+    if (!isSupabaseConfigured()) {
+
+        $("portfolioList")
+            .innerHTML = `
+
+                <div class="empty-state">
+
+                    Connect Supabase in
+                    <strong>config.js</strong>
+                    to load saved portfolios.
+
+                </div>
+
+            `;
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } = await db
+        .from("portfolios")
+        .select("*")
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
+
+        $("portfolioList")
+            .innerHTML = `
+
+                <div class="empty-state">
+
+                    Database Error:
+                    ${esc(error.message)}
+
+                </div>
+
+            `;
+
+        return;
+
+    }
+
+
+    if (!data || data.length === 0) {
+
+        $("portfolioList")
+            .innerHTML = `
+
+                <div class="empty-state">
+
+                    No saved portfolios yet.
+
+                    <br><br>
+
+                    Create your first portfolio
+                    using the form above.
+
+                </div>
+
+            `;
+
+        return;
+
+    }
+
+
+    $("portfolioList")
+        .innerHTML = data
+            .map(portfolio => {
+
+                return `
+
+                    <div
+                        class="portfolio-item"
+                    >
+
+                        <div>
+
+                            <h3>
+                                ${esc(
+                                    portfolio.full_name
+                                )}
+                            </h3>
+
+                            <p>
+                                ${esc(
+                                    portfolio.email
+                                )}
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="actions"
+                        >
+
+                            <button
+                                class="btn ghost"
+                                onclick="editPortfolio('${portfolio.id}')"
+                            >
+                                Edit
+                            </button>
+
+
+                            <button
+                                class="btn primary"
+                                onclick="viewPortfolio('${portfolio.id}')"
+                            >
+                                View
+                            </button>
+
+
+                            <button
+                                class="btn ghost"
+                                onclick="deletePortfolio('${portfolio.id}')"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            })
+            .join("");
+
+}
+
+
+/* =========================================
+   EDIT PORTFOLIO
+========================================= */
+
+window.editPortfolio =
+    async function (id) {
+
+        if (!isSupabaseConfigured()) {
+
+            notify(
+                "Supabase is not configured."
+            );
+
+            return;
+
+        }
+
+
+        const {
+            data,
+            error
+        } = await db
+            .from("portfolios")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+
+        if (error) {
+
+            notify(
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        currentPortfolio =
+            data;
+
+
+        fillForm(data);
+
+
+        document
+            .querySelector(
+                "#create"
+            )
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+
+        notify(
+            "Portfolio loaded for editing."
+        );
+
+    };
+
+
+/* =========================================
+   VIEW PORTFOLIO
+========================================= */
+
+window.viewPortfolio =
+    async function (id) {
+
+        if (!isSupabaseConfigured()) {
+
+            notify(
+                "Supabase is not configured."
+            );
+
+            return;
+
+        }
+
+
+        const {
+            data,
+            error
+        } = await db
+            .from("portfolios")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+
+        if (error) {
+
+            notify(
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        currentPortfolio =
+            data;
+
+
+        fillForm(data);
+
+
+        $("portfolioPreview")
+            .innerHTML =
+            portfolioMarkup(
+                data,
+                selectedTemplate
+            );
+
+
+        document
+            .querySelector(
+                "#preview"
+            )
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    };
+
+
+/* =========================================
+   DELETE PORTFOLIO
+========================================= */
+
+window.deletePortfolio =
+    async function (id) {
+
+        if (!isSupabaseConfigured()) {
+
+            notify(
+                "Supabase is not configured."
+            );
+
+            return;
+
+        }
+
+
+        const confirmation =
+            confirm(
+                "Are you sure you want to delete this portfolio?"
+            );
+
+
+        if (!confirmation) {
+
+            return;
+
+        }
+
+
+        const {
+            error
+        } = await db
+            .from("portfolios")
+            .delete()
+            .eq("id", id);
+
+
+        if (error) {
+
+            notify(
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        if (
+            currentPortfolio &&
+            currentPortfolio.id === id
+        ) {
+
+            clearForm();
+
+        }
+
+
+        await loadPortfolios();
+
+
+        notify(
+            "Portfolio deleted successfully."
+        );
+
+    };
+
+
+/* =========================================
+   INITIALIZE
+========================================= */
+
+loadPortfolios();
