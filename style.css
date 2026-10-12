@@ -133,41 +133,31 @@ body {
 ========================================= */
 
 .hero {
-
     min-height: 650px;
-
-    padding: 80px 7%;
-
+    padding: 90px 7%;
     display: grid;
-
-    grid-template-columns: 1.2fr 0.8fr;
-
-    gap: 50px;
-
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 60px;
     align-items: center;
-
     background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(123, 63, 160, 0.14),
+            transparent 28%
+        ),
         linear-gradient(
             135deg,
-            #f7effc,
-            #ffffff
+            #f8f0fc,
+            #ffffff 65%
         );
 }
 
 
-.hero h1 {
-
-    font-size: clamp(
-        42px,
-        6vw,
-        76px
-    );
-
-    line-height: 1.03;
-
-    margin: 14px 0 22px;
-
-    max-width: 750px;
+.hero p {
+    max-width: 620px;
+    color: #665a70;
+    font-size: 18px;
+    line-height: 1.7;
 }
 
 
