@@ -365,39 +365,26 @@ body {
 ========================================= */
 
 .form-card {
-
-    background: white;
-
-    border: 1px solid #eadff2;
-
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #eadff0;
     border-radius: 22px;
-
-    padding: 30px;
-
-    box-shadow:
-        0 15px 40px
-        rgba(75, 31, 99, 0.06);
+    padding: 32px;
+    box-shadow: 0 12px 35px rgba(75, 31, 99, 0.07);
 }
-
 
 .form-grid {
-
     display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
 }
-
 
 .form-grid label {
-
+    display: block;
+    margin-bottom: 8px;
+    color: #3d3047;
     font-weight: 700;
-
-    color: #46364f;
+    font-size: 14px;
 }
-
 
 .form-grid label.full {
 
