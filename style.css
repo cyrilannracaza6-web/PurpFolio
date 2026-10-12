@@ -12,13 +12,12 @@ html {
 
 body {
     margin: 0;
-
     font-family: "Inter", Arial, sans-serif;
-
     color: #241b2f;
-
-    background: #faf8fc;
-
+    background:
+        radial-gradient(circle at 10% 10%, rgba(123, 63, 160, 0.08), transparent 25%),
+        radial-gradient(circle at 90% 20%, rgba(180, 124, 198, 0.08), transparent 25%),
+        #faf8fc;
     line-height: 1.6;
 }
 
