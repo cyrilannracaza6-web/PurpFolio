@@ -149,8 +149,13 @@ body {
             #ffffff 65%
         );
 }
-
-
+.hero h1 {
+    font-size: clamp(44px, 6vw, 76px);
+    line-height: 1.02;
+    margin: 14px 0 22px;
+    max-width: 750px;
+    letter-spacing: -2px;
+}
 .hero p {
     max-width: 620px;
     color: #665a70;
