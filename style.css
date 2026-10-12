@@ -486,42 +486,28 @@ body {
 
 
 .template-card {
-
-    background: white;
-
-    border: 2px solid #eadff2;
-
+    position: relative;
+    padding: 26px;
+    background: #ffffff;
+    border: 1px solid #eadff0;
     border-radius: 20px;
-
-    padding: 16px;
-
-    text-align: left;
-
+    box-shadow: 0 8px 24px rgba(75, 31, 99, 0.06);
     cursor: pointer;
-
-    color: #33253c;
-
-    transition: 0.2s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 
 .template-card:hover {
-
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 10px 30px
-        rgba(109, 58, 140, 0.1);
+    transform: translateY(-5px);
+    border-color: #c9a8d8;
+    box-shadow: 0 14px 30px rgba(75, 31, 99, 0.12);
 }
 
 
 .template-card.selected {
-
-    border-color: #7b3fa0;
-
-    box-shadow:
-        0 10px 30px
-        rgba(109, 58, 140, 0.12);
+    border: 2px solid #7b3fa0;
+    background: #faf5fc;
+    box-shadow: 0 12px 30px rgba(123, 63, 160, 0.14);
 }
 
 
