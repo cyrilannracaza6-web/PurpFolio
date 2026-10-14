@@ -889,7 +889,6 @@ return `
 /* =========================================
    TEMPLATE SELECTION
 ========================================= */
-
 document
     .querySelectorAll(".template-card")
     .forEach(card => {
