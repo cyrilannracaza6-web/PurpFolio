@@ -18,6 +18,1026 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+    <style>
+
+/* =========================================
+   PURPFOLIO VYRO-STYLE HOME UI
+========================================= */
+
+:root {
+    --pf-purple: #7652f4;
+    --pf-purple-dark: #5b35d5;
+    --pf-ink: #211c3b;
+}
+
+
+/* ===============================
+   NAVIGATION HOVER
+================================ */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    background: rgba(255,255,255,.88);
+
+    border-bottom: 1px solid rgba(118,82,244,.12);
+}
+
+
+.topbar nav a {
+    position: relative;
+
+    transition:
+        color .25s ease,
+        transform .25s ease;
+}
+
+
+.topbar nav a:hover {
+    color: var(--pf-purple);
+    transform: translateY(-1px);
+}
+
+
+.topbar nav a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -7px;
+
+    width: 0;
+    height: 3px;
+
+    border-radius: 99px;
+
+    background: var(--pf-purple);
+
+    transform: translateX(-50%);
+
+    transition: width .25s ease;
+}
+
+
+.topbar nav a:hover::after {
+    width: 70%;
+}
+
+
+/* ===============================
+   HERO
+================================ */
+
+#home.hero {
+
+    position: relative;
+
+    min-height: 650px;
+
+    padding:
+        80px
+        clamp(24px, 8vw, 110px)
+        90px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(420px, .95fr);
+
+    align-items: center;
+
+    gap: 40px;
+
+    overflow: hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 78% 35%,
+            rgba(118,82,244,.12),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 20% 90%,
+            rgba(159,126,255,.09),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            180deg,
+            #fff 0%,
+            #fbfaff 100%
+        );
+}
+
+
+/* Background glow */
+
+#home.hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 360px;
+    height: 360px;
+
+    right: -150px;
+    top: -120px;
+
+    border-radius: 50%;
+
+    background: rgba(118,82,244,.07);
+
+    pointer-events: none;
+}
+
+
+/* ===============================
+   HERO TEXT
+================================ */
+
+#home .hero-copy {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 650px;
+
+    animation:
+        pfHeroText .8s ease both;
+}
+
+
+#home .eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 8px 14px;
+
+    border:
+        1px solid
+        rgba(118,82,244,.3);
+
+    border-radius: 999px;
+
+    color: var(--pf-purple-dark);
+
+    background:
+        rgba(255,255,255,.75);
+
+    letter-spacing: .13em;
+
+    font-size: .72rem;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 25px
+        rgba(79,52,150,.06);
+}
+
+
+#home h1 {
+
+    margin:
+        24px 0
+        18px;
+
+    color: var(--pf-ink);
+
+    font-size:
+        clamp(3rem, 5.4vw, 5.25rem);
+
+    line-height: .98;
+
+    letter-spacing: -.055em;
+
+    font-weight: 800;
+}
+
+
+#home h1 span {
+
+    color:
+        var(--pf-purple);
+}
+
+
+#home .hero-copy > p {
+
+    max-width: 610px;
+
+    color: #625d72;
+
+    font-size: 1.08rem;
+
+    line-height: 1.75;
+
+    margin-bottom: 30px;
+}
+
+
+/* ===============================
+   HERO BUTTONS
+================================ */
+
+#home .hero-buttons {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    align-items: center;
+}
+
+
+#home .hero-buttons .btn {
+
+    min-height: 54px;
+
+    padding:
+        0 24px;
+
+    border-radius: 16px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+
+#home .hero-buttons .btn:hover {
+
+    transform:
+        translateY(-4px);
+}
+
+
+#home .hero-buttons .btn.primary {
+
+    box-shadow:
+        0 15px 30px
+        rgba(118,82,244,.28);
+}
+
+
+#home .hero-buttons .btn.primary:hover {
+
+    box-shadow:
+        0 20px 38px
+        rgba(118,82,244,.34);
+}
+
+
+#home .hero-buttons .btn.ghost {
+
+    background:
+        rgba(255,255,255,.9);
+
+    box-shadow:
+        0 10px 25px
+        rgba(50,35,90,.08);
+}
+
+
+#home .arrow {
+
+    transition:
+        transform .25s ease;
+}
+
+
+#home .btn:hover .arrow {
+
+    transform:
+        translateX(5px);
+}
+
+
+/* ===============================
+   SMALL NOTE
+================================ */
+
+#home .hero-note {
+
+    margin-top: 22px;
+
+    color: #858094;
+
+    font-size: .85rem;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+#home .pulse-dot {
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background:
+        var(--pf-purple);
+
+    box-shadow:
+        0 0 0 6px
+        rgba(118,82,244,.1);
+
+    animation:
+        pfPulse 1.8s infinite;
+}
+
+
+/* ===============================
+   FLOATING CARDS
+================================ */
+
+#home .hero-template-stack {
+
+    position: relative;
+
+    min-height: 500px;
+
+    width:
+        min(100%, 570px);
+
+    margin: 0 auto;
+
+    animation:
+        pfHeroCards .95s ease both;
+}
+
+
+#home .floating-template {
+
+    position: absolute;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 28px 60px
+        rgba(42,25,86,.2);
+
+    transition:
+        transform .45s cubic-bezier(.2,.8,.2,1),
+        box-shadow .35s ease;
+
+    cursor: default;
+}
+
+
+#home .floating-template:hover {
+
+    box-shadow:
+        0 35px 75px
+        rgba(42,25,86,.28);
+}
+
+
+/* BACK */
+
+#home .template-back {
+
+    width: 275px;
+    height: 375px;
+
+    left: 8%;
+    top: 60px;
+
+    padding: 24px;
+
+    background:
+        #f2edff;
+
+    transform:
+        rotate(-10deg);
+
+    animation:
+        pfFloatBack
+        5s
+        ease-in-out
+        infinite;
+}
+
+
+#home .template-back:hover {
+
+    transform:
+        rotate(-6deg)
+        translateY(-10px)
+        scale(1.015);
+}
+
+
+/* MIDDLE */
+
+#home .template-middle {
+
+    width: 280px;
+    height: 390px;
+
+    left: 30%;
+    top: 28px;
+
+    padding: 24px;
+
+    background: white;
+
+    border:
+        1px solid
+        rgba(118,82,244,.1);
+
+    transform:
+        rotate(1deg);
+
+    animation:
+        pfFloatMiddle
+        5.4s
+        ease-in-out
+        infinite;
+}
+
+
+#home .template-middle:hover {
+
+    transform:
+        rotate(-2deg)
+        translateY(-10px)
+        scale(1.015);
+}
+
+
+/* FRONT */
+
+#home .template-front {
+
+    width: 315px;
+    height: 420px;
+
+    right: 2%;
+    top: 72px;
+
+    padding: 25px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            150deg,
+            #17112e 0%,
+            #2c1851 58%,
+            #5d2ba5 100%
+        );
+
+    transform:
+        rotate(9deg);
+
+    animation:
+        pfFloatFront
+        5.2s
+        ease-in-out
+        infinite;
+}
+
+
+#home .template-front:hover {
+
+    transform:
+        rotate(5deg)
+        translateY(-10px)
+        scale(1.015);
+}
+
+
+/* ===============================
+   FAKE PORTFOLIO CONTENT
+================================ */
+
+.template-top {
+
+    height: 86px;
+
+    border-radius: 14px;
+
+    margin-bottom: 24px;
+}
+
+
+.purple-top {
+
+    background:
+        linear-gradient(
+            135deg,
+            #6846ee,
+            #9d7cff
+        );
+}
+
+
+.white-top {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0ebff,
+            #fff
+        );
+
+    border:
+        1px solid
+        #e7e0ff;
+}
+
+
+.fake-avatar {
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d6c9ff,
+            #7652f4
+        );
+
+    margin-bottom: 18px;
+}
+
+
+.fake-avatar.small {
+
+    width: 50px;
+    height: 50px;
+}
+
+
+.fake-line {
+
+    width: 65%;
+    height: 9px;
+
+    border-radius: 20px;
+
+    background:
+        #d9d2ed;
+
+    margin: 9px 0;
+}
+
+
+.fake-line.long {
+
+    width: 88%;
+
+    height: 13px;
+
+    background:
+        #5c526f;
+}
+
+
+.fake-pills,
+.creative-pills {
+
+    display: flex;
+
+    gap: 7px;
+
+    flex-wrap: wrap;
+
+    margin-top: 22px;
+}
+
+
+.fake-pills i {
+
+    width: 52px;
+    height: 22px;
+
+    border-radius: 20px;
+
+    background:
+        #d9d0ff;
+}
+
+
+.fake-blocks {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 10px;
+
+    margin-top: 28px;
+}
+
+
+.fake-blocks i {
+
+    height: 90px;
+
+    border-radius: 13px;
+
+    background:
+        #eeeaff;
+
+    border:
+        1px solid
+        #e3dcff;
+}
+
+
+/* CARD LABEL */
+
+#home .floating-template small {
+
+    position: absolute;
+
+    bottom: 18px;
+    right: 20px;
+
+    font-weight: 800;
+
+    font-size: .72rem;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    opacity: .75;
+}
+
+
+/* ===============================
+   CREATIVE CARD
+================================ */
+
+.creative-header {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    color:
+        #e5d6ff;
+
+    font-size: .68rem;
+
+    letter-spacing: .15em;
+
+    font-weight: 700;
+}
+
+
+.creative-header b {
+
+    font-size: 1rem;
+
+    color:
+        #c9aaff;
+}
+
+
+.creative-name {
+
+    margin-top: 65px;
+
+    font-size: 2.15rem;
+
+    line-height: .95;
+
+    letter-spacing: -.04em;
+}
+
+
+.creative-name strong {
+
+    color:
+        #a982ff;
+}
+
+
+.creative-section {
+
+    margin-top: 32px;
+}
+
+
+.creative-section > span {
+
+    color:
+        #d1b8ff;
+
+    font-size: .58rem;
+
+    letter-spacing: .18em;
+
+    font-weight: 800;
+}
+
+
+.creative-pills i {
+
+    padding:
+        5px 8px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    font-style: normal;
+
+    font-size: .55rem;
+}
+
+
+.creative-project {
+
+    height: 54px;
+
+    margin-top: 8px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.14);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+
+/* ===============================
+   TEMPLATE CARD HOVER
+================================ */
+
+.template-card {
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+
+.template-card:hover {
+
+    transform:
+        translateY(-7px);
+}
+
+
+.template-card .sample {
+
+    transition:
+        transform .35s ease;
+}
+
+
+.template-card:hover .sample {
+
+    transform:
+        scale(1.025);
+}
+
+
+/* ===============================
+   ANIMATIONS
+================================ */
+
+@keyframes pfHeroText {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes pfHeroCards {
+
+    from {
+        opacity: 0;
+        transform:
+            translateX(35px)
+            scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+
+
+@keyframes pfFloatBack {
+
+    0%, 100% {
+        transform:
+            rotate(-10deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            rotate(-8deg)
+            translateY(-10px);
+    }
+}
+
+
+@keyframes pfFloatMiddle {
+
+    0%, 100% {
+        transform:
+            rotate(1deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            rotate(2deg)
+            translateY(-12px);
+    }
+}
+
+
+@keyframes pfFloatFront {
+
+    0%, 100% {
+        transform:
+            rotate(9deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            rotate(7deg)
+            translateY(-14px);
+    }
+}
+
+
+@keyframes pfPulse {
+
+    0%, 100% {
+        box-shadow:
+            0 0 0 5px
+            rgba(118,82,244,.1);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 9px
+            rgba(118,82,244,.02);
+    }
+}
+
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+
+    #home.hero {
+
+        grid-template-columns: 1fr;
+
+        min-height: auto;
+
+        padding-top: 65px;
+    }
+
+
+    #home .hero-copy {
+
+        text-align: center;
+
+        margin: 0 auto;
+    }
+
+
+    #home .hero-buttons,
+    #home .hero-note {
+
+        justify-content:
+            center;
+    }
+
+
+    #home .hero-template-stack {
+
+        min-height: 460px;
+
+        transform:
+            scale(.88);
+
+        transform-origin:
+            top center;
+
+        margin-bottom:
+            -55px;
+    }
+}
+
+
+@media (max-width: 560px) {
+
+    #home h1 {
+
+        font-size:
+            2.8rem;
+    }
+
+
+    #home .hero-template-stack {
+
+        min-height:
+            390px;
+
+        width:
+            100%;
+
+        transform:
+            scale(.68);
+
+        margin-left:
+            -5%;
+
+        margin-bottom:
+            -120px;
+    }
+
+
+    #home .hero-buttons .btn {
+
+        width:
+            100%;
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    #home .hero-copy,
+    #home .hero-template-stack,
+    #home .floating-template,
+    #home .pulse-dot {
+
+        animation:
+            none !important;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
@@ -50,66 +1070,130 @@
 
         <section id="home" class="hero page">
 
-            <div class="hero-copy">
+    <div class="hero-copy">
 
-                <span class="eyebrow">
-                    YOUR PORTFOLIO, YOUR STORY
-                </span>
+        <span class="eyebrow">
+            ONLINE PORTFOLIO TEMPLATE GENERATOR
+        </span>
 
-                <h1>
-                    Showcase what
-                    <span>you can do.</span>
-                </h1>
+        <h1>
+            Build a portfolio
+            <br>
+            you are <span>proud to share.</span>
+        </h1>
 
-                <p>
-                    Build a professional portfolio that highlights your
-                    skills, experiences, projects, and achievements—all
-                    in one place.
-                </p>
+        <p>
+            Enter your details once, choose a Simple, Modern or Creative
+            design, and get a clean portfolio page saved online.
+            Edit or delete it any time.
+        </p>
 
-                <div class="hero-buttons">
+        <div class="hero-buttons">
 
-                    <a href="#create" class="btn primary">
-                        Create Portfolio
-                    </a>
+            <a href="#create" class="btn primary">
+                Create Portfolio <span class="arrow">→</span>
+            </a>
 
-                    <a href="#manage" class="btn ghost">
-                        Manage Portfolios
-                    </a>
+            <a href="#manage" class="btn ghost">
+                Manage Portfolios
+            </a>
 
+        </div>
+
+        <div class="hero-note">
+            <span class="pulse-dot"></span>
+            3 portfolio templates · Save online · Easy to edit
+        </div>
+
+    </div>
+
+
+    <div class="hero-card hero-template-stack">
+
+        <!-- BACK CARD -->
+
+        <div class="floating-template template-back">
+
+            <div class="template-top purple-top"></div>
+
+            <div class="fake-avatar"></div>
+
+            <div class="fake-line long"></div>
+            <div class="fake-line"></div>
+
+            <div class="fake-pills">
+                <i></i>
+                <i></i>
+                <i></i>
+            </div>
+
+            <small>Simple</small>
+
+        </div>
+
+
+        <!-- MIDDLE CARD -->
+
+        <div class="floating-template template-middle">
+
+            <div class="template-top white-top"></div>
+
+            <div class="fake-avatar small"></div>
+
+            <div class="fake-line long"></div>
+            <div class="fake-line"></div>
+
+            <div class="fake-blocks">
+                <i></i>
+                <i></i>
+            </div>
+
+            <small>Modern</small>
+
+        </div>
+
+
+        <!-- FRONT CARD -->
+
+        <div class="floating-template template-front">
+
+            <div class="creative-header">
+                <span>PORTFOLIO</span>
+                <b>03</b>
+            </div>
+
+            <div class="creative-name">
+                Your<br>
+                <strong>Story.</strong>
+            </div>
+
+            <div class="creative-section">
+
+                <span>SKILLS</span>
+
+                <div class="creative-pills">
+                    <i>HTML</i>
+                    <i>CSS</i>
+                    <i>UI/UX</i>
                 </div>
 
             </div>
 
+            <div class="creative-section">
 
-            <div class="hero-card">
+                <span>PROJECTS</span>
 
-                <div class="mini-window">
-
-                    <div class="window-dots">
-                        <i></i>
-                        <i></i>
-                        <i></i>
-                    </div>
-
-                    <div class="mini-avatar">
-                        PF
-                    </div>
-
-                    <div class="mini-line wide"></div>
-                    <div class="mini-line"></div>
-
-                    <div class="mini-grid">
-                        <b></b>
-                        <b></b>
-                        <b></b>
-                    </div>
-
-                </div>
+                <div class="creative-project"></div>
 
             </div>
 
-        </section>
+            <small>Creative</small>
+
+        </div>
+
+    </div>
+
+</section>
 
 
         <!-- =========================
