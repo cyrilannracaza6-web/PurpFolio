@@ -1036,7 +1036,104 @@
     }
 
 }
+/* =========================================
+   PURPFOLIO CUSTOM LOGO
+========================================= */
 
+.pf-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    text-decoration: none;
+    color: inherit;
+
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.pf-brand:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+
+
+/* Logo symbol */
+
+.pf-brand-mark {
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    overflow: visible;
+
+    filter:
+        drop-shadow(
+            0 6px 12px
+            rgba(124, 58, 237, 0.25)
+        );
+
+    transition:
+        transform 0.35s ease,
+        filter 0.35s ease;
+}
+
+
+/* Logo hover animation */
+
+.pf-brand:hover .pf-brand-mark {
+    transform:
+        rotate(-4deg)
+        scale(1.06);
+
+    filter:
+        drop-shadow(
+            0 8px 18px
+            rgba(124, 58, 237, 0.40)
+        );
+}
+
+
+/* PurpFolio text */
+
+.pf-brand-text {
+    font-size: 1.35rem;
+
+    font-weight: 800;
+
+    letter-spacing: -0.04em;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4C1D95,
+            #7C3AED,
+            #A855F7
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .pf-brand-mark {
+        width: 36px;
+        height: 36px;
+    }
+
+    .pf-brand-text {
+        font-size: 1.15rem;
+    }
+
+}
 </style>
 </head>
 
@@ -1048,9 +1145,130 @@
 
     <header class="topbar">
 
-        <a href="#home" class="brand">
-            Purp<span>folio</span>
-        </a>
+       <a href="#home" class="pf-brand" aria-label="PurpFolio Home">
+
+    <svg
+        class="pf-brand-mark"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+    >
+
+        <!-- Orbit -->
+        <ellipse
+            cx="50"
+            cy="50"
+            rx="43"
+            ry="20"
+            transform="rotate(-18 50 50)"
+            fill="none"
+            stroke="url(#pfOrbit)"
+            stroke-width="4"
+            stroke-linecap="round"
+        />
+
+        <!-- Back portfolio page -->
+        <rect
+            x="30"
+            y="22"
+            width="42"
+            height="55"
+            rx="9"
+            fill="url(#pfBack)"
+        />
+
+        <!-- Front portfolio page -->
+        <rect
+            x="25"
+            y="29"
+            width="42"
+            height="55"
+            rx="9"
+            fill="url(#pfFront)"
+        />
+
+        <!-- Stylized P -->
+        <path
+            d="M43 68V39
+               C43 35 46 33 51 33
+               H57
+               C65 33 70 37 70 44
+               C70 51 65 55 57 55
+               H49"
+            fill="none"
+            stroke="white"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+
+        <!-- Inner detail -->
+        <path
+            d="M49 42H57"
+            stroke="#DCC8FF"
+            stroke-width="3"
+            stroke-linecap="round"
+        />
+
+        <!-- Sparkle -->
+        <path
+            d="M76 20
+               L78 25
+               L83 27
+               L78 29
+               L76 34
+               L74 29
+               L69 27
+               L74 25Z"
+            fill="#FFFFFF"
+        />
+
+        <!-- Purple gradients -->
+        <defs>
+
+            <linearGradient
+                id="pfFront"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="1"
+            >
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="55%" stop-color="#9333EA"/>
+                <stop offset="100%" stop-color="#C084FC"/>
+            </linearGradient>
+
+            <linearGradient
+                id="pfBack"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="1"
+            >
+                <stop offset="0%" stop-color="#4C1D95"/>
+                <stop offset="100%" stop-color="#7E22CE"/>
+            </linearGradient>
+
+            <linearGradient
+                id="pfOrbit"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="1"
+            >
+                <stop offset="0%" stop-color="#A855F7"/>
+                <stop offset="100%" stop-color="#E9D5FF"/>
+            </linearGradient>
+
+        </defs>
+
+    </svg>
+
+    <span class="pf-brand-text">
+        PurpFolio
+    </span>
+
+</a>
 
         <nav>
             <a href="#home">Home</a>
