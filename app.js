@@ -958,14 +958,14 @@ $("portfolioForm")
             let data;
 
             try {
-                 data = await formData();
-            } catch (error) {
-                console.error(error);
+    data = await formData();
+} catch (error) {
+    console.error(error);
 
-            $("formMessage").textContent =
-                error.message || "Profile picture upload failed.";
+    $("formMessage").textContent =
+        error.message || "Profile picture upload failed.";
 
-            return;
+    return;
 }
 
 let result;
