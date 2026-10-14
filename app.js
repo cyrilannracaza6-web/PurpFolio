@@ -630,20 +630,42 @@ function portfolioMarkup(
 
 
     /* =====================================
-       TEMPLATE 3 - CREATIVE
-    ===================================== */
+   TEMPLATE 3 - CREATIVE
+   PURPLE SPOTLIGHT DESIGN
+===================================== */
 
-    return `
+return `
+    <article class="portfolio-render render-creative">
 
-        <article
-            class="portfolio-render render-creative"
-        >
+        <!-- CREATIVE HERO -->
+        <div class="creative-hero">
 
-            <div class="creative-head">
+            <div class="creative-orb orb-one"></div>
+            <div class="creative-orb orb-two"></div>
 
-                ${picture(portfolio)}
+            <div class="creative-hero-top">
+                <span class="creative-label">
+                    PORTFOLIO / 03
+                </span>
 
-                <div>
+                <span class="creative-label">
+                    CREATIVE EDITION
+                </span>
+            </div>
+
+            <div class="creative-hero-main">
+
+                <div class="creative-photo-wrap">
+                    <div class="creative-photo-ring"></div>
+
+                    ${picture(portfolio)}
+                </div>
+
+                <div class="creative-intro">
+
+                    <span class="creative-kicker">
+                        HELLO, I'M
+                    </span>
 
                     <h1>
                         ${esc(
@@ -651,94 +673,190 @@ function portfolioMarkup(
                         )}
                     </h1>
 
-                    <p>
+                    <p class="creative-contact">
                         ${contact}
+                    </p>
+
+                    <div class="creative-intro-line"></div>
+
+                    <p class="creative-tagline">
+                        Turning ideas into meaningful
+                        digital experiences.
                     </p>
 
                 </div>
 
             </div>
 
+            <div class="creative-scroll">
+                <span></span>
+                EXPLORE
+            </div>
 
-            <div class="creative-sections">
+        </div>
 
 
-                <div class="creative-box">
+        <!-- CREATIVE CONTENT -->
+        <div class="creative-content">
+
+            <!-- ABOUT -->
+            <section class="creative-feature creative-about">
+
+                <div class="creative-number">
+                    01
+                </div>
+
+                <div class="creative-section-title">
+                    <span>INTRODUCTION</span>
 
                     <h2>
                         About Me
                     </h2>
+                </div>
 
+                <div class="creative-about-text">
                     ${lines(
                         portfolio.aboutMe
                     )}
-
                 </div>
 
+            </section>
 
-                <div class="creative-box">
+
+            <!-- SKILLS -->
+            <section class="creative-feature creative-skills">
+
+                <div class="creative-number">
+                    02
+                </div>
+
+                <div class="creative-section-title">
+                    <span>WHAT I DO</span>
 
                     <h2>
                         My Skills
                     </h2>
+                </div>
 
-                    <div class="tags">
+                <div class="creative-skill-cloud">
+                    ${skills(
+                        portfolio.skills
+                    )}
+                </div>
 
-                        ${skills(
-                            portfolio.skills
-                        )}
+            </section>
 
+
+            <!-- PROJECTS -->
+            <section class="creative-project-feature">
+
+                <div class="creative-project-heading">
+
+                    <div class="creative-number">
+                        03
+                    </div>
+
+                    <div>
+                        <span>
+                            SELECTED WORK
+                        </span>
+
+                        <h2>
+                            Projects
+                        </h2>
                     </div>
 
                 </div>
 
+                <div class="creative-project-content">
 
-                <div class="creative-box">
+                    <div class="creative-project-mark">
+                        <span>✦</span>
+                    </div>
+
+                    <div class="creative-project-text">
+                        ${lines(
+                            portfolio.projects
+                        )}
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- EDUCATION + EXPERIENCE -->
+            <div class="creative-two-column">
+
+                <section class="creative-mini-card">
+
+                    <div class="creative-number">
+                        04
+                    </div>
+
+                    <span class="creative-mini-label">
+                        BACKGROUND
+                    </span>
 
                     <h2>
                         Education
                     </h2>
 
-                    ${lines(
-                        portfolio.education
-                    )}
+                    <div class="creative-mini-content">
+                        ${lines(
+                            portfolio.education
+                        )}
+                    </div>
 
-                </div>
-
-
-                <div class="creative-box">
-
-                    <h2>
-                        Projects
-                    </h2>
-
-                    ${lines(
-                        portfolio.projects
-                    )}
-
-                </div>
+                </section>
 
 
-                <div class="creative-box">
+                <section class="creative-mini-card">
+
+                    <div class="creative-number">
+                        05
+                    </div>
+
+                    <span class="creative-mini-label">
+                        JOURNEY
+                    </span>
 
                     <h2>
                         Experience
                     </h2>
 
-                    ${lines(
-                        portfolio.experience
-                    )}
+                    <div class="creative-mini-content">
+                        ${lines(
+                            portfolio.experience
+                        )}
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- CONNECT -->
+            <section class="creative-connect">
+
+                <div>
+
+                    <span class="creative-mini-label">
+                        LET'S CONNECT
+                    </span>
+
+                    <h2>
+                        Keep in touch.
+                    </h2>
+
+                    <p>
+                        Find me online and explore
+                        more of my work.
+                    </p>
 
                 </div>
 
-
-                <div
-                    class="creative-box render-social"
-                >
-
-                    <h2>
-                        Connect
-                    </h2>
+                <div class="creative-connect-links">
 
                     ${social}
 
@@ -746,13 +864,26 @@ function portfolioMarkup(
 
                 </div>
 
+            </section>
+
+
+            <!-- FOOTER -->
+            <div class="creative-footer">
+
+                <span>
+                    PURPFOLIO
+                </span>
+
+                <span>
+                    CREATIVE / 03
+                </span>
+
             </div>
 
-        </article>
+        </div>
 
-    `;
-}
-
+    </article>
+`;
 
 /* =========================================
    TEMPLATE SELECTION
