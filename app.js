@@ -126,6 +126,7 @@ async function formData() {
     }
 
     data.full_name = data.fullName;
+delete data.fullName;
 
 return data;
 }
@@ -302,7 +303,7 @@ function picture(portfolio) {
                     )
                 )}"
                 alt="${esc(
-                    portfolio.fullName
+                    portfolio.full_name
                 )} profile picture"
                 onerror="
                     this.style.display='none'
@@ -314,7 +315,7 @@ function picture(portfolio) {
 
 
     const initials =
-        (portfolio.fullName || "P")
+        (portfolio.full_name || "P")
             .split(" ")
             .map(word => word[0])
             .join("")
@@ -407,7 +408,7 @@ function portfolioMarkup(
 
                     <h1>
                         ${esc(
-                            portfolio.fullName
+                            portfolio.full_name
                         )}
                     </h1>
 
@@ -522,7 +523,7 @@ function portfolioMarkup(
 
                         <h1>
                             ${esc(
-                                portfolio.fullName
+                                portfolio.full_name
                             )}
                         </h1>
 
@@ -669,7 +670,7 @@ return `
 
                     <h1>
                         ${esc(
-                            portfolio.fullName
+                            portfolio.full_name
                         )}
                     </h1>
 
@@ -1087,9 +1088,10 @@ $("generateBtn")
 
 
             if (
-                !portfolio.fullName ||
-                !portfolio.email
-            ) {
+    !portfolio.full_name ||
+    !portfolio.email
+)
+            {
 
                 notify(
                     "Please save your portfolio first."
