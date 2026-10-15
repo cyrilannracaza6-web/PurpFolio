@@ -126,7 +126,6 @@ async function formData() {
     }
 
     data.full_name = data.fullName;
-data.contact_number = data.contactNumber;
 
 return data;
 }
